@@ -12,7 +12,6 @@ const joinNs = (element, nsData) => {
       firstRoom = room.roomTitle;
     }
 
-    console.log(room);
     roomList.innerHTML += `<li class="room" namespaceId=${room.namespaceId}>
       <span class="fa-solid fa-${room.privateRoom ? 'lock' : 'globe'}"></span>${
       room.roomTitle
@@ -25,7 +24,6 @@ const joinNs = (element, nsData) => {
   const roomNodes = document.querySelectorAll('.room');
   roomNodes.forEach((elem) => {
     elem.addEventListener('click', (e) => {
-      console.log('Someone clicked on ' + e.target.innerText);
       const namespaceId = elem.getAttribute('namespaceId');
 
       joinRoom(e.target.innerText, namespaceId);

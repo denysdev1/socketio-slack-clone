@@ -12,7 +12,7 @@ const clientOptions = {
     password,
   },
 };
-const socket = io('http://localhost:8000');
+const socket = io();
 const namespaceSockets = [];
 const listeners = {
   nsChange: [],
@@ -26,7 +26,6 @@ document.querySelector('#message-form').addEventListener('submit', (e) => {
   const input = document.querySelector('#user-message');
   const newMessage = input.value;
 
-  console.log(newMessage, selectedNsId);
   namespaceSockets[selectedNsId].emit('newMessageToRoom', {
     newMessage,
     date: Date.now(),
@@ -41,16 +40,11 @@ document.querySelector('#message-form').addEventListener('submit', (e) => {
 
 const addListeners = (nsId) => {
   if (!listeners.nsChange[nsId]) {
-    namespaceSockets[nsId].on('nsChange', (data) => {
-      console.log('Namespace Changed!');
-      console.log(data);
-    });
     listeners.nsChange[nsId] = true;
   }
 
   if (!listeners.messageToRoom[nsId]) {
     namespaceSockets[nsId].on('messageToRoom', (messageObj) => {
-      console.log(messageObj);
       document.querySelector('#messages').innerHTML +=
         buildMessageHTML(messageObj);
     });
@@ -59,13 +53,10 @@ const addListeners = (nsId) => {
 };
 
 socket.on('connect', () => {
-  console.log('Connected!');
-
   socket.emit('clientConnect');
 });
 
 socket.on('nsList', (nsData) => {
-  console.log(nsData);
   const lastNs = Number(localStorage.getItem('lastNs'));
   const namespacesDiv = document.querySelector('.namespaces');
   namespacesDiv.innerHTML = '';
@@ -74,7 +65,7 @@ socket.on('nsList', (nsData) => {
     namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint}><img src=${ns.image} /></div>`;
 
     if (!namespaceSockets[ns.id]) {
-      namespaceSockets[ns.id] = io(`http://localhost:8000${ns.endpoint}`);
+      namespaceSockets[ns.id] = io(ns.endpoint);
     }
 
     addListeners(ns.id);
@@ -82,7 +73,6 @@ socket.on('nsList', (nsData) => {
 
   Array.from(document.getElementsByClassName('namespace')).forEach(
     (element) => {
-      console.log(element);
       element.addEventListener('click', (e) => {
         joinNs(element, nsData);
       });
@@ -92,6 +82,3 @@ socket.on('nsList', (nsData) => {
   joinNs(document.getElementsByClassName('namespace')[lastNs], nsData);
 });
 
-socket.on('joinRoom', () => {
-  console.log('Someone joined the room');
-});

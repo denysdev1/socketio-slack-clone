@@ -1,12 +1,15 @@
 const express = require('express');
 const app = express();
 const socket = require('socket.io');
+const cors = require('cors');
 const namespaces = require('./data/namespaces');
 const Room = require('./classes/Room');
+const PORT = process.env.PORT || 8000;
 
 app.use(express.static(__dirname + '/public'));
+app.use(cors);
 
-const server = app.listen(8000);
+const server = app.listen(PORT);
 const io = socket(server);
 
 app.get('/change-ns', (req, res) => {
