@@ -1,6 +1,8 @@
 body {
   background-color: #3b4048;
   color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .namespaces {
@@ -140,4 +142,65 @@ input {
 
 .pointer {
   cursor: pointer;
+}
+
+.namespaces {
+  padding-top: 6px;
+}
+
+.menu-icon {
+  height: 20px;
+  position: relative;
+  cursor: pointer;
+  padding: 0px 7px;
+}
+
+.line {
+  width: 100%;
+  height: 4px;
+  background-color: white;
+  margin: 4px 0;
+  border-radius: 2px;
+}
+
+.sidebar {
+  height: fit-content;
+  width: fit-content;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  background-color: #111;
+  overflow: hidden;
+  transition: 0.5s;
+  z-index: 1;
+  border-right: 1px solid rgb(19, 10, 10);
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar .rooms {
+  padding: 10px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 16px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar .rooms .main-rooms .pointer {
+  margin-top: 0;
+}
+
+.sidebar a:hover {
+  color: #007bff;
+}
+
+.pointer.hidden {
+  
 }

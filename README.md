@@ -1,6 +1,6 @@
 # Slack Clone
 
-This is a light Slack clone build with Socket.io
+This is a responsive light Slack clone built with Socket.io
 
 [DEMO-LINK](https://slack-socketio.onrender.com) (May take up to a minute to start)
 

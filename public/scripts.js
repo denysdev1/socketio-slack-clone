@@ -1,7 +1,5 @@
-// const userName = prompt('What is your username?');
-// const password = prompt('What is your password?');
-const userName = 'Denys';
-const password = '1234';
+const userName = prompt('What is your username?');
+const password = prompt('What is your password?');
 const clientOptions = {
   query: {
     userName,
@@ -58,7 +56,7 @@ socket.on('connect', () => {
 
 socket.on('nsList', (nsData) => {
   const lastNs = Number(localStorage.getItem('lastNs'));
-  const namespacesDiv = document.querySelector('.namespaces');
+  const namespacesDiv = document.querySelector('#namespaces-container');
   namespacesDiv.innerHTML = '';
 
   nsData.forEach((ns) => {
@@ -81,4 +79,3 @@ socket.on('nsList', (nsData) => {
 
   joinNs(document.getElementsByClassName('namespace')[lastNs], nsData);
 });
-

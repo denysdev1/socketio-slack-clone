@@ -3,31 +3,42 @@ const joinNs = (element, nsData) => {
   const clickedNs = nsData.find((row) => row.endpoint === nsEndpoint);
   selectedNsId = clickedNs.id;
   const rooms = clickedNs.rooms;
-  let roomList = document.querySelector('.room-list');
+  let roomLists = document.querySelectorAll('.room-list');
 
-  roomList.innerHTML = '';
-  let firstRoom;
-  rooms.forEach((room, i) => {
-    if (i === 0) {
-      firstRoom = room.roomTitle;
+  roomLists.forEach((roomList) => {
+    if (!roomList.parentElement.classList.contains('dm')) {
+      roomList.innerHTML = '';
     }
-
-    roomList.innerHTML += `<li class="room" namespaceId=${room.namespaceId}>
-      <span class="fa-solid fa-${room.privateRoom ? 'lock' : 'globe'}"></span>${
-      room.roomTitle
-    }
-    </li>`;
   });
 
-  joinRoom(firstRoom, selectedNsId);
+  roomLists.forEach((roomList) => {
+    if (!roomList.parentElement.classList.contains('dm')) {
+      let firstRoom;
+      rooms.forEach((room, i) => {
+        if (i === 0) {
+          firstRoom = room.roomTitle;
+        }
 
-  const roomNodes = document.querySelectorAll('.room');
-  roomNodes.forEach((elem) => {
-    elem.addEventListener('click', (e) => {
-      const namespaceId = elem.getAttribute('namespaceId');
+        roomList.innerHTML += `<li class="room" namespaceId=${room.namespaceId}>
+          <span class="fa-solid fa-${
+            room.privateRoom ? 'lock' : 'globe'
+          }"></span>${room.roomTitle}
+        </li>`;
+      });
 
-      joinRoom(e.target.innerText, namespaceId);
-    });
+      joinRoom(firstRoom, selectedNsId);
+
+      const roomNodes = document.querySelectorAll('.room');
+      const sidebar = document.getElementById('mySidebar');
+      roomNodes.forEach((elem) => {
+        elem.addEventListener('click', (e) => {
+          const namespaceId = elem.getAttribute('namespaceId');
+
+          joinRoom(e.target.innerText, namespaceId);
+          sidebar.classList.remove('active');
+        });
+      });
+    }
   });
 
   localStorage.setItem('lastNs', selectedNsId);
